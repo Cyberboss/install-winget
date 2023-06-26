@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ 'windows-2019', 'windows-2022', 'windows-latest' ]
+        os: [ 'windows-2022', 'windows-latest' ]
     runs-on: ${{ matrix.os }}
     steps:
     - name: Install winget
