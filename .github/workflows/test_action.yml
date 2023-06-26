@@ -1,0 +1,37 @@
+name: 'Test Action'
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 0 * * *
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  test-job:
+    name: Test Job
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ 'windows-2019', 'windows-2022', 'windows-latest' ]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Install winget
+      id: install-winget
+      uses: Cyberboss/install-winget@v1
+
+    - name: Check Version
+      shell: bash
+      run: |
+        VERSION="${{ steps.install-winget.outputs.winget-version }}"
+        if [ -z "$VERSION" ]; then
+          exit 1
+        fi
+        echo $VERSION
+
+    - name: Install wingetcreate
+      run: winget install wingetcreate
