@@ -1,5 +1,7 @@
 name: Install winget
 description: Installs the latest version of winget
+label: arrow-down-circle
+color: blue
 outputs:
   winget-version:
     description: "The version of winget installed"
