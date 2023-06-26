@@ -22,14 +22,14 @@ jobs:
     steps:
     - name: Install winget
       uses: Cyberboss/install-winget@v1
-      
+
     - name: Install wingetcreate
       run: winget install wingetcreate --disable-interactivity --accept-source-agreements
 ```
 
-## Outputs
+### Outputs
 
-### `winget-version`
+#### `winget-version`
 
 The output of `winget --version` for the installed version.
 
