@@ -1,5 +1,5 @@
 # InstallWinget
-Action to install latest winget CLI on Windows runners
+Action to install latest [winget-cli](https://github.com/microsoft/winget-cli) on Windows runners
 
 ## Usage
 
