@@ -14,5 +14,5 @@ jobs:
       uses: Cyberboss/install-winget@v1
       
     - name: Install wingetcreate
-      run: winget install wingetcreate --accept-package-agreements --disable-interactivity
+      run: winget install wingetcreate --accept-package-agreements
 ```
