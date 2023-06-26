@@ -1,8 +1,9 @@
 # InstallWinget
 Action to install latest [winget-cli](https://github.com/microsoft/winget-cli) on Windows runners
 
-## Usage
+## Example
 
+`.github/workflows/test-job.yml`
 ```yml
 jobs:
   test-job:
@@ -11,4 +12,7 @@ jobs:
     steps:
     - name: Install winget
       uses: Cyberboss/InstallWinget@v1
+      
+    - name: Install wingetcreate
+      run: winget install wingetcreate
 ```
