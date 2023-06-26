@@ -1,4 +1,4 @@
-# InstallWinget
+# install-winget
 Action to install latest [winget-cli](https://github.com/microsoft/winget-cli) on Windows runners
 
 ## Example
@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Install winget
-      uses: Cyberboss/InstallWinget@v1
+      uses: Cyberboss/install-winget@v1
       
     - name: Install wingetcreate
       run: winget install wingetcreate
