@@ -25,7 +25,9 @@ runs:
         Invoke-WebRequest -Uri $latestWingetLicenseXmlUri -OutFile "./$latestWingetLicenseXml"
         Add-AppxPackage Microsoft.VCLibs.x64.14.00.Desktop.appx
         Add-AppxProvisionedPackage -Online -PackagePath ./$latestWingetMsixBundle -LicensePath ./$latestWingetLicenseXml
-        rm Microsoft.VCLibs.x64.14.00.Desktop.appx $latestWingetMsixBundle $latestWingetLicenseXml
+        rm Microsoft.VCLibs.x64.14.00.Desktop.appx
+        rm $latestWingetMsixBundle
+        rm $latestWingetLicenseXml
 
     - name: Output winget Version
       id: winget-version
