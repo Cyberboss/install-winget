@@ -31,4 +31,4 @@ jobs:
         echo $VERSION
 
     - name: Install wingetcreate
-      run: winget install wingetcreate --silent --accept-package-agreements
+      run: winget install wingetcreate --disable-interactivity --accept-source-agreements
