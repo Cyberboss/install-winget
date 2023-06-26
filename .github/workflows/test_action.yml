@@ -7,9 +7,6 @@ on:
   push:
     branches:
     - main
-  pull_request:
-    branches:
-    - main
 
 jobs:
   test-job:
@@ -22,7 +19,7 @@ jobs:
     steps:
     - name: Install winget
       id: install-winget
-      uses: Cyberboss/install-winget@${{ github.sha }}
+      uses: Cyberboss/install-winget@v1
 
     - name: Check Version
       shell: bash
