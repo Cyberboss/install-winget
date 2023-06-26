@@ -22,7 +22,7 @@ jobs:
     steps:
     - name: Install winget
       id: install-winget
-      uses: Cyberboss/install-winget@v1
+      uses: Cyberboss/install-winget@${{ github.sha }}
 
     - name: Check Version
       shell: bash
