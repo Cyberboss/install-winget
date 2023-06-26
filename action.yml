@@ -1,5 +1,9 @@
 name: Install winget
 description: Installs the latest version of winget
+outputs:
+  winget-version:
+    description: "The version of winget installed"
+    value: ${{ steps.winget-version.outputs.winget-version }}
 runs:
   using: composite
   steps:
@@ -22,3 +26,12 @@ runs:
         Add-AppxPackage Microsoft.VCLibs.x64.14.00.Desktop.appx
         Add-AppxProvisionedPackage -Online -PackagePath ./$latestWingetMsixBundle -LicensePath ./$latestWingetLicenseXml
         rm Microsoft.VCLibs.x64.14.00.Desktop.appx $latestWingetMsixBundle $latestWingetLicenseXml
+
+    - name: Output winget Version
+      id: winget-version
+      shell: bash
+      run: |
+        VERSION=$(winget --version)
+        echo "$VERSION"
+        echo "winget-version=$(echo $VERSION)" >> $GITHUB_OUTPUT
+        
