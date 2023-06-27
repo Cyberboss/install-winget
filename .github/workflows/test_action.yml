@@ -10,7 +10,31 @@ on:
 
 jobs:
   test-job:
-    name: Test Job
+    name: Test Job (No GitHub token)
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ 'windows-latest' ]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Install winget
+      id: install-winget
+      uses: Cyberboss/install-winget@v1
+
+    - name: Check Version
+      shell: bash
+      run: |
+        VERSION="${{ steps.install-winget.outputs.winget-version }}"
+        if [ -z "$VERSION" ]; then
+          exit 1
+        fi
+        echo $VERSION
+
+    - name: Install wingetcreate
+      run: winget install wingetcreate --disable-interactivity --accept-source-agreements
+
+  test-job-with-token:
+    name: Test Job with GitHub Token
     strategy:
       fail-fast: false
       matrix:
@@ -20,6 +44,8 @@ jobs:
     - name: Install winget
       id: install-winget
       uses: Cyberboss/install-winget@v1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Check Version
       shell: bash
