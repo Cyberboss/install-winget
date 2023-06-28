@@ -22,10 +22,20 @@ jobs:
     steps:
     - name: Install winget
       uses: Cyberboss/install-winget@v1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Install wingetcreate
       run: winget install wingetcreate --disable-interactivity --accept-source-agreements
 ```
+
+### Inputs
+
+#### `GITHUB_TOKEN` (Optional)
+
+The GitHub token to use when interacting with the GitHub API. Used to bypass unauthenticated rate limits.
+
+**Recommendation is to set this to ${{ secrets.GITHUB_TOKEN }} or some other available token** as GitHub runners tend to often come with exhausted rate limits.
 
 ### Outputs
 
