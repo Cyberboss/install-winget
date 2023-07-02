@@ -19,13 +19,13 @@ runs:
     - name: Install winget # Hacked together https://github.com/microsoft/winget-cli/issues/1861#issuecomment-1352784247
       shell: powershell    # https://github.com/microsoft/winget-cli/issues/700#issuecomment-874084714
       run: |
+        $previousProgressPreference = $ProgressPreference
         $ProgressPreference = 'SilentlyContinue'
         try
         {
           Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.3 -OutFile .\microsoft.ui.xaml.2.7.3.zip
           Expand-Archive .\microsoft.ui.xaml.2.7.3.zip
           Add-AppxPackage .\microsoft.ui.xaml.2.7.3\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.7.appx
-          $progressPreference = 'silentlyContinue'
           if ("${{ inputs.GITHUB_TOKEN }}" -ne "NONE") {
             $headers = @{ "Authorization" = "Bearer ${{ inputs.GITHUB_TOKEN }}" }
             Write-Host "Token present"
