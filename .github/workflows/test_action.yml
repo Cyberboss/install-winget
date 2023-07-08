@@ -39,6 +39,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ 'windows-2022', 'windows-latest' ]
+        repeat: [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ]
     runs-on: ${{ matrix.os }}
     steps:
     - name: Install winget
