@@ -92,6 +92,10 @@ runs:
         rm ./winget.msixbundle
         Remove-Item -Recurse -Force .\microsoft.ui.xaml.2.7.3
 
+    - name: Delay to allow Installation to Finalize
+      shell: powershell
+      run: Sleep 10
+
     - name: Output winget Version
       id: winget-version
       shell: powershell
