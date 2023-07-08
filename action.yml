@@ -52,6 +52,8 @@ runs:
         $wingetReleaseAssets = $gitHubReleasesResponse.assets
         $latestWingetMsixBundleUri = $wingetReleaseAssets.browser_download_url | Where-Object {$_.EndsWith(".msixbundle")}
         $latestWingetLicenseXmlUri = $wingetReleaseAssets.browser_download_url | Where-Object {$_.EndsWith("License1.xml")}
+        Write-Host "latest_winget_msix_bundle_uri=$latestWingetMsixBundleUri"
+        Write-Host "latest_winget_license_xml_uri=$latestWingetLicenseXmlUri"
         echo "latest_winget_msix_bundle_uri=$latestWingetMsixBundleUri" >> $GITHUB_OUTPUT
         echo "latest_winget_license_xml_uri=$latestWingetLicenseXmlUri" >> $GITHUB_OUTPUT
 
