@@ -37,7 +37,7 @@ runs:
 
     - name: Determine Latest winget release via GitHub API
       id: github_api
-      shell: pwsh
+      shell: powershell
       run: |
         $ProgressPreference = 'SilentlyContinue'
         if ("${{ inputs.GITHUB_TOKEN }}" -ne "NONE") {
@@ -54,8 +54,8 @@ runs:
         $latestWingetLicenseXmlUri = $wingetReleaseAssets.browser_download_url | Where-Object {$_.EndsWith("License1.xml")}
         Write-Host "latest_winget_msix_bundle_uri=$latestWingetMsixBundleUri"
         Write-Host "latest_winget_license_xml_uri=$latestWingetLicenseXmlUri"
-        echo "latest_winget_msix_bundle_uri=$latestWingetMsixBundleUri" >> $GITHUB_OUTPUT
-        echo "latest_winget_license_xml_uri=$latestWingetLicenseXmlUri" >> $GITHUB_OUTPUT
+        Write-Output "latest_winget_msix_bundle_uri=$latestWingetMsixBundleUri" >> $Env:GITHUB_OUTPUT
+        Write-Output "latest_winget_license_xml_uri=$latestWingetLicenseXmlUri" >> $Env:GITHUB_OUTPUT
 
     - name: Download winget
       shell: powershell
@@ -94,9 +94,9 @@ runs:
 
     - name: Output winget Version
       id: winget-version
-      shell: pwsh
+      shell: powershell
       run: |
         $version=winget --version
         Write-Host "$version"
-        echo "winget-version=$version" >> $GITHUB_OUTPUT
+        Write-Output "winget-version=$version" >> $Env:GITHUB_OUTPUT
 
