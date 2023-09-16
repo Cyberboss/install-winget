@@ -94,7 +94,7 @@ runs:
 
     - name: Delay to allow Installation to Finalize
       shell: powershell
-      run: Sleep 10
+      run: Sleep 15
 
     - name: Output winget Version
       id: winget-version
