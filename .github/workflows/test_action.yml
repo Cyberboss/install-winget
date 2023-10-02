@@ -31,7 +31,7 @@ jobs:
         echo $VERSION
 
     - name: Install wingetcreate
-      run: winget install wingetcreate --disable-interactivity --accept-source-agreements
+      run: winget install wingetcreate --disable-interactivity --accept-source-agreements --accept-package-agreements
 
   test-job-with-token:
     name: Test Job with GitHub Token
