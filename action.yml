@@ -18,16 +18,16 @@ runs:
 # https://github.com/microsoft/winget-cli/issues/700#issuecomment-874084714
   using: composite
   steps:
-    - name: Download Microsoft.UI.Xaml v2.7.3
+    - name: Download Microsoft.UI.Xaml v2.8.6
       shell: powershell
       run: |
         $ProgressPreference = 'SilentlyContinue'
-        Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.3 -OutFile .\microsoft.ui.xaml.2.7.3.zip
+        Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.8.6 -OutFile .\microsoft.ui.xaml.2.8.6.zip
 
-    - name: Unzip Microsoft.UI.Xaml v2.7.3
+    - name: Unzip Microsoft.UI.Xaml v2.8.6
       shell: powershell
       run: |
-        Expand-Archive .\microsoft.ui.xaml.2.7.3.zip
+        Expand-Archive .\microsoft.ui.xaml.2.8.6.zip
 
     - name: Download Microsoft.VCLibs.x64.14.00.Desktop
       shell: powershell
@@ -69,10 +69,10 @@ runs:
         $ProgressPreference = 'SilentlyContinue'
         Invoke-WebRequest -Headers $headers -Uri "${{ steps.github_api.outputs.latest_winget_license_xml_uri }}" -OutFile "./winget_License1.xml"
 
-    - name: Install Microsoft.UI.Xaml v2.7.3
+    - name: Install Microsoft.UI.Xaml v2.8.6
       shell: powershell
       run: |
-        Add-AppxPackage .\microsoft.ui.xaml.2.7.3\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.7.appx
+        Add-AppxPackage .\microsoft.ui.xaml.2.8.6\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.8.appx
 
     - name: Install Microsoft.VCLibs.x64.14.00.Desktop
       shell: powershell
@@ -90,7 +90,7 @@ runs:
         rm Microsoft.VCLibs.x64.14.00.Desktop.appx
         rm ./winget_License1.xml
         rm ./winget.msixbundle
-        Remove-Item -Recurse -Force .\microsoft.ui.xaml.2.7.3
+        Remove-Item -Recurse -Force .\microsoft.ui.xaml.2.8.6
 
     - name: Delay to allow Installation to Finalize
       shell: powershell
