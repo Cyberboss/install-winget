@@ -24,6 +24,7 @@ runs:
         $ProgressPreference = 'SilentlyContinue'
         Install-PackageProvider -Name NuGet -Force | Out-Null
         Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
+        Repair-WinGetPackageManager
 
     - name: Wait to allow Installation to Finalize
       shell: powershell
