@@ -95,7 +95,7 @@ runs:
     - name: Wait to allow Installation to Finalize
       shell: powershell
       run: |
-        foreach ($i in 1..60) {
+        foreach ($i in 1..300) {
           Start-Sleep -Seconds 1
           Write-Host "Waiting for winget to install... ${i}"
           if (Get-Command winget -ErrorAction SilentlyContinue) {
