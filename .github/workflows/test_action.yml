@@ -22,7 +22,7 @@ jobs:
     steps:
     - name: Install winget
       id: install-winget
-      uses: Cyberboss/install-winget@v1.0.6
+      uses: Cyberboss/install-winget@fd3e9ff3c501cffc2c34266a0ef0c2a14be19796
 
     - name: Check Version
       shell: bash
@@ -47,7 +47,7 @@ jobs:
     steps:
     - name: Install winget
       id: install-winget
-      uses: Cyberboss/install-winget@v1.0.6
+      uses: Cyberboss/install-winget@fd3e9ff3c501cffc2c34266a0ef0c2a14be19796
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
