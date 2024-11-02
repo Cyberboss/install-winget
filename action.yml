@@ -18,13 +18,81 @@ runs:
 # https://github.com/microsoft/winget-cli/issues/700#issuecomment-874084714
   using: composite
   steps:
-    - name: Install winget
+    - name: Download Microsoft.UI.Xaml v2.8.6
       shell: powershell
       run: |
         $ProgressPreference = 'SilentlyContinue'
-        Install-PackageProvider -Name NuGet -Force | Out-Null
-        Install-Module -Name Microsoft.WinGet.Client -Force -Repository PSGallery | Out-Null
-        Repair-WinGetPackageManager
+        Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.8.6 -OutFile .\microsoft.ui.xaml.2.8.6.zip
+
+    - name: Unzip Microsoft.UI.Xaml v2.8.6
+      shell: powershell
+      run: |
+        Expand-Archive .\microsoft.ui.xaml.2.8.6.zip
+
+    - name: Download Microsoft.VCLibs.x64.14.00.Desktop
+      shell: powershell
+      run: |
+        $ProgressPreference = 'SilentlyContinue'
+        Invoke-WebRequest -Uri https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx -OutFile Microsoft.VCLibs.x64.14.00.Desktop.appx
+
+    - name: Determine Latest winget release via GitHub API
+      id: github_api
+      shell: powershell
+      run: |
+        $ProgressPreference = 'SilentlyContinue'
+        if ("${{ inputs.GITHUB_TOKEN }}" -ne "NONE") {
+          $headers = @{ "Authorization" = "Bearer ${{ inputs.GITHUB_TOKEN }}" }
+          Write-Host "Token present"
+        } else {
+          $headers = @{}
+          Write-Host "No token present"
+        }
+
+        $releaseURL = "https://api.github.com/repos/microsoft/winget-cli/releases/latest"
+        $releaseURL = "https://api.github.com/repos/microsoft/winget-cli/releases/164835566"
+        $gitHubReleasesResponse = Invoke-RestMethod $releaseURL -Headers $headers
+        $wingetReleaseAssets = $gitHubReleasesResponse.assets
+        $latestWingetMsixBundleUri = $wingetReleaseAssets.browser_download_url | Where-Object {$_.EndsWith(".msixbundle")}
+        $latestWingetLicenseXmlUri = $wingetReleaseAssets.browser_download_url | Where-Object {$_.EndsWith("License1.xml")}
+        Write-Host "latest_winget_msix_bundle_uri=$latestWingetMsixBundleUri"
+        Write-Host "latest_winget_license_xml_uri=$latestWingetLicenseXmlUri"
+        Write-Output "latest_winget_msix_bundle_uri=$latestWingetMsixBundleUri" >> $Env:GITHUB_OUTPUT
+        Write-Output "latest_winget_license_xml_uri=$latestWingetLicenseXmlUri" >> $Env:GITHUB_OUTPUT
+
+    - name: Download winget
+      shell: powershell
+      run: |
+        $ProgressPreference = 'SilentlyContinue'
+        Invoke-WebRequest -Headers $headers -Uri "${{ steps.github_api.outputs.latest_winget_msix_bundle_uri }}" -OutFile "./winget.msixbundle"
+
+    - name: Download License
+      shell: powershell
+      run: |
+        $ProgressPreference = 'SilentlyContinue'
+        Invoke-WebRequest -Headers $headers -Uri "${{ steps.github_api.outputs.latest_winget_license_xml_uri }}" -OutFile "./winget_License1.xml"
+
+    - name: Install Microsoft.UI.Xaml v2.8.6
+      shell: powershell
+      run: |
+        Add-AppxPackage .\microsoft.ui.xaml.2.8.6\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.8.appx
+
+    - name: Install Microsoft.VCLibs.x64.14.00.Desktop
+      shell: powershell
+      run: |
+        Add-AppxPackage Microsoft.VCLibs.x64.14.00.Desktop.appx
+
+    - name: Install winget
+      shell: powershell
+      run: |
+        Add-AppxProvisionedPackage -Online -PackagePath ./winget.msixbundle -LicensePath ./winget_License1.xml
+
+    - name: Cleanup Downloads
+      shell: powershell
+      run: |
+        rm Microsoft.VCLibs.x64.14.00.Desktop.appx
+        rm ./winget_License1.xml
+        rm ./winget.msixbundle
+        Remove-Item -Recurse -Force .\microsoft.ui.xaml.2.8.6
 
     - name: Wait to allow Installation to Finalize
       shell: powershell
