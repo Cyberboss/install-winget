@@ -1,6 +1,6 @@
 # install-winget
 
-Action to install latest [winget-cli](https://github.com/microsoft/winget-cli) on Windows runners
+Action to install [winget-cli](https://github.com/microsoft/winget-cli) v1.8.1911 on Windows runners
 
 Currently only supports `windows-2022`/`window-latest` runner image.
 

@@ -7,6 +7,13 @@ on:
   push:
     branches:
     - main
+  pull_request:
+    branches:
+    - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test-job:
@@ -19,7 +26,7 @@ jobs:
     steps:
     - name: Install winget
       id: install-winget
-      uses: Cyberboss/install-winget@v1.0.6
+      uses: Cyberboss/install-winget@v1
 
     - name: Check Version
       shell: bash
@@ -44,7 +51,7 @@ jobs:
     steps:
     - name: Install winget
       id: install-winget
-      uses: Cyberboss/install-winget@v1.0.6
+      uses: Cyberboss/install-winget@v1
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

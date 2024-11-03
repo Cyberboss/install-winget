@@ -48,7 +48,9 @@ runs:
           Write-Host "No token present"
         }
 
-        $gitHubReleasesResponse = Invoke-RestMethod https://api.github.com/repos/microsoft/winget-cli/releases/latest -Headers $headers
+        $releaseURL = "https://api.github.com/repos/microsoft/winget-cli/releases/latest"
+        $releaseURL = "https://api.github.com/repos/microsoft/winget-cli/releases/164835566"
+        $gitHubReleasesResponse = Invoke-RestMethod $releaseURL -Headers $headers
         $wingetReleaseAssets = $gitHubReleasesResponse.assets
         $latestWingetMsixBundleUri = $wingetReleaseAssets.browser_download_url | Where-Object {$_.EndsWith(".msixbundle")}
         $latestWingetLicenseXmlUri = $wingetReleaseAssets.browser_download_url | Where-Object {$_.EndsWith("License1.xml")}
@@ -92,9 +94,16 @@ runs:
         rm ./winget.msixbundle
         Remove-Item -Recurse -Force .\microsoft.ui.xaml.2.8.6
 
-    - name: Delay to allow Installation to Finalize
+    - name: Wait to allow Installation to Finalize
       shell: powershell
-      run: Sleep 15
+      run: |
+        foreach ($i in 1..60) {
+          Start-Sleep -Seconds 1
+          Write-Host "Waiting for winget to install... ${i}"
+          if (Get-Command winget -ErrorAction SilentlyContinue) {
+            break
+          }
+        }
 
     - name: Output winget Version
       id: winget-version
