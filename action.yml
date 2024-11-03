@@ -1,5 +1,5 @@
 name: Install winget
-description: Installs the latest version of winget
+description: Installs a version of winget
 author: Dominion/Cyberboss
 branding:
   icon: arrow-down-circle
@@ -9,6 +9,11 @@ inputs:
     description: 'No scopes GitHub token for querying the API and downloading from winget-cli releases'
     required: false
     default: 'NONE'
+  wget_release_id:
+    description: 'Specify desired release-id of winget can be specified here. By default, a recent stable release will be selected by the action author. To see what versions are available, look into https://api.github.com/repos/microsoft/winget-cli/releases'
+    required: false
+    default: '164835566' # latest can be used here
+
 outputs:
   winget-version:
     description: "The version of winget installed"
@@ -48,8 +53,7 @@ runs:
           Write-Host "No token present"
         }
 
-        $releaseURL = "https://api.github.com/repos/microsoft/winget-cli/releases/latest"
-        $releaseURL = "https://api.github.com/repos/microsoft/winget-cli/releases/164835566"
+        $releaseURL = "https://api.github.com/repos/microsoft/winget-cli/releases/${{ inputs.wget_release_id }}"
         $gitHubReleasesResponse = Invoke-RestMethod $releaseURL -Headers $headers
         $wingetReleaseAssets = $gitHubReleasesResponse.assets
         $latestWingetMsixBundleUri = $wingetReleaseAssets.browser_download_url | Where-Object {$_.EndsWith(".msixbundle")}

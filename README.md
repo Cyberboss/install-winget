@@ -1,6 +1,6 @@
 # install-winget
 
-Action to install [winget-cli](https://github.com/microsoft/winget-cli) v1.8.1911 on Windows runners
+Action to install [winget-cli](https://github.com/microsoft/winget-cli) default v1.8.1911 on Windows runners. Other versions can be installed by changing `wget_release_id` parameter.
 
 Currently only supports `windows-2022`/`window-latest` runner image.
 
@@ -24,6 +24,7 @@ jobs:
       uses: Cyberboss/install-winget@v1
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        wget_release_id: latest
 
     - name: Install wingetcreate
       run: winget install wingetcreate --disable-interactivity --accept-source-agreements
