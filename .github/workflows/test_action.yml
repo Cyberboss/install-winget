@@ -28,7 +28,7 @@ jobs:
     steps:
     - name: Install winget
       id: install-winget
-      uses: blessio/install-winget@develop
+      uses: Cyberboss/install-winget@main
 
     - name: Check Version
       shell: bash
@@ -43,7 +43,7 @@ jobs:
       run: winget install wingetcreate --disable-interactivity --accept-source-agreements --accept-package-agreements
 
   test-job-with-token:
-    name: Test Job with GitHub Token
+    name: Test Pinned Job with GitHub Token
     strategy:
       fail-fast: false
       matrix:
@@ -53,9 +53,37 @@ jobs:
     steps:
     - name: Install winget
       id: install-winget
-      uses: blessio/install-winget@develop
+      uses: Cyberboss/install-winget@main
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Check Version
+      shell: bash
+      run: |
+        VERSION="${{ steps.install-winget.outputs.winget-version }}"
+        if [ -z "$VERSION" ]; then
+          exit 1
+        fi
+        echo $VERSION
+
+    - name: Install wingetcreate
+      run: winget install wingetcreate --disable-interactivity --accept-source-agreements
+
+  test-latest-with-token:
+    name: Test Latest Job with GitHub Token
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ 'windows-2022', 'windows-latest' ]
+        repeat: [ 'a', 'b', 'c', 'd', 'e', 'f', 'g' ]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Install winget
+      id: install-winget
+      uses: Cyberboss/install-winget@main
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        wget_release_id: latest
 
     - name: Check Version
       shell: bash
