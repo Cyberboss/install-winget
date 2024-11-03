@@ -38,6 +38,10 @@ The GitHub token to use when interacting with the GitHub API. Used to bypass una
 
 **Recommendation is to set this to ${{ secrets.GITHUB_TOKEN }} or some other available token** as GitHub runners tend to often come with exhausted rate limits.
 
+#### `wget_release_id` (Optional)
+
+This is used to be able to pin (make immutable) the version of winget that is taken github. To see which versions (you need the release-id) is possible to use plese check the github API for the release of [winget-cli](https://github.com/microsoft/winget-cli) this can be checked by looking for the topmost `id:` attribute here: https://api.github.com/repos/microsoft/winget-cli/releases . 
+
 ### Outputs
 
 #### `winget-version`
