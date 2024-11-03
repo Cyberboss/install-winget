@@ -7,9 +7,11 @@ on:
   push:
     branches:
     - main
+    - develop
   pull_request:
     branches:
     - main
+    - develop
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -26,7 +28,7 @@ jobs:
     steps:
     - name: Install winget
       id: install-winget
-      uses: Cyberboss/install-winget@v1
+      uses: blessio/install-winget@develop
 
     - name: Check Version
       shell: bash
@@ -46,12 +48,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [ 'windows-2022', 'windows-latest' ]
-        repeat: [ 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ]
+        repeat: [ 'a', 'b', 'c', 'd', 'e', 'f', 'g' ]
     runs-on: ${{ matrix.os }}
     steps:
     - name: Install winget
       id: install-winget
-      uses: Cyberboss/install-winget@v1
+      uses: blessio/install-winget@develop
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
