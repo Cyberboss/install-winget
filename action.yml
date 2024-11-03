@@ -88,7 +88,15 @@ runs:
     - name: Install winget
       shell: powershell
       run: |
+        echo "PROVISIONING WINGET"
         Add-AppxProvisionedPackage -Online -PackagePath ./winget.msixbundle -LicensePath ./winget_License1.xml
+
+    - name: Installing Winget
+      shell: powershell
+      run: |
+        echo "INSTALLING WINGET"
+        $ProgressPreference = 'SilentlyContinue'
+        Add-AppxPackage .\winget.msixbundle
 
     - name: Cleanup Downloads
       shell: powershell
