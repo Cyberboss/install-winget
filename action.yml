@@ -24,7 +24,7 @@ runs:
   using: composite
   steps:
     - name: Check runner OS
-      if: ${{ runner.os != 'Windows' }}
+      if: runner.os != 'Windows'
       shell: bash
       run: |
         echo "[ERROR] This action only runs on Windows runner, Current runner: ${{ runner.os }}"
@@ -36,27 +36,27 @@ runs:
       run: runner.name
 
     - name: Download Microsoft.UI.Xaml v2.8.6
-      if: ${{ runner.name }} != "windows-2025"
+      if: runner.name != "windows-2025"
       shell: powershell
       run: |
         $ProgressPreference = 'SilentlyContinue'
         Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.8.6 -OutFile .\microsoft.ui.xaml.2.8.6.zip
 
     - name: Unzip Microsoft.UI.Xaml v2.8.6
-      if: ${{ runner.name }} != "windows-2025"
+      if: runner.name != "windows-2025"
       shell: powershell
       run: |
         Expand-Archive .\microsoft.ui.xaml.2.8.6.zip
 
     - name: Download Microsoft.VCLibs.x64.14.00.Desktop
-      if: ${{ runner.name }} != "windows-2025"
+      if: runner.name != "windows-2025"
       shell: powershell
       run: |
         $ProgressPreference = 'SilentlyContinue'
         Invoke-WebRequest -Uri https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx -OutFile Microsoft.VCLibs.x64.14.00.Desktop.appx
 
     - name: Determine Latest winget release via GitHub API
-      if: ${{ runner.name }} != "windows-2025"
+      if: runner.name != "windows-2025"
       id: github_api
       shell: powershell
       run: |
@@ -80,21 +80,21 @@ runs:
         Write-Output "latest_winget_license_xml_uri=$latestWingetLicenseXmlUri" >> $Env:GITHUB_OUTPUT
 
     - name: Download winget
-      if: ${{ runner.name }} != "windows-2025"
+      if: runner.name != "windows-2025"
       shell: powershell
       run: |
         $ProgressPreference = 'SilentlyContinue'
         Invoke-WebRequest -Headers $headers -Uri "${{ steps.github_api.outputs.latest_winget_msix_bundle_uri }}" -OutFile "./winget.msixbundle"
 
     - name: Download License
-      if: ${{ runner.name }} != "windows-2025"
+      if: runner.name != "windows-2025"
       shell: powershell
       run: |
         $ProgressPreference = 'SilentlyContinue'
         Invoke-WebRequest -Headers $headers -Uri "${{ steps.github_api.outputs.latest_winget_license_xml_uri }}" -OutFile "./winget_License1.xml"
 
     - name: Install Microsoft.UI.Xaml v2.8.6
-      if: ${{ runner.name }} != "windows-2025"
+      if: runner.name != "windows-2025"
       shell: powershell
       run: |
         Add-AppxPackage .\microsoft.ui.xaml.2.8.6\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.8.appx
@@ -106,14 +106,14 @@ runs:
         Add-AppxPackage Microsoft.VCLibs.x64.14.00.Desktop.appx
 
     - name: Install winget
-      if: ${{ runner.name }} != "windows-2025"
+      if: runner.name != "windows-2025"
       shell: powershell
       run: |
         echo "PROVISIONING WINGET"
         Add-AppxProvisionedPackage -Online -PackagePath ./winget.msixbundle -LicensePath ./winget_License1.xml
 
     - name: Installing Winget
-      if: ${{ runner.name }} != "windows-2025"
+      if: runner.name != "windows-2025"
       shell: powershell
       run: |
         echo "INSTALLING WINGET"
@@ -121,7 +121,7 @@ runs:
         Add-AppxPackage .\winget.msixbundle
 
     - name: Cleanup Downloads
-      if: ${{ runner.name }} != "windows-2025"
+      if: runner.name != "windows-2025"
       shell: powershell
       run: |
         rm Microsoft.VCLibs.x64.14.00.Desktop.appx
@@ -130,7 +130,7 @@ runs:
         Remove-Item -Recurse -Force .\microsoft.ui.xaml.2.8.6
 
     - name: Wait to allow Installation to Finalize
-      if: ${{ runner.name }} != "windows-2025"
+      if: runner.name != "windows-2025"
       shell: powershell
       run: |
         foreach ($i in 1..60) {
