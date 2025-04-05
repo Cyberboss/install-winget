@@ -35,7 +35,8 @@ runs:
       id: os_check
       run: |
         $version = (Get-WmiObject Win32_OperatingSystem).Caption
-        echo "version=$version" >> $GITHUB_OUTPUT
+        echo "version=${version}" >> $GITHUB_OUTPUT
+        echo $version
 
     - name: Windows Server 2025 Simple Setup
       if: steps.os_check.outputs.version != 'Microsoft Windows Server 2022 Datacenter'
