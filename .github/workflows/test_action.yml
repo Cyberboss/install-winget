@@ -47,7 +47,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ 'windows-2022', 'windows-latest' ]
+        os: [ 'windows-2025', 'windows-latest' ]
         repeat: [ 'a', 'b', 'c', 'd', 'e', 'f', 'g' ]
     runs-on: ${{ matrix.os }}
     steps:
