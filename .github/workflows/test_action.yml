@@ -47,10 +47,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ 'windows-2025', 'windows-latest' ]
-        repeat: [ 'a', 'b', 'c', 'd', 'e', 'f', 'g' ]
+        os: [ 'windows-2025', 'windows-2025', 'windows-latest' ]
+        repeat: [ 'a', 'b' ]
     runs-on: ${{ matrix.os }}
     steps:
+    - name: Echo Runner Name
+      echo: ${{ runner.name }}
+
     - name: Install winget
       id: install-winget
       uses: Cyberboss/install-winget@main
@@ -74,10 +77,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ 'windows-2022', 'windows-latest' ]
-        repeat: [ 'a', 'b', 'c', 'd', 'e', 'f', 'g' ]
+        os: [ 'windows-2022', 'windows-2025', 'windows-latest' ]
+        repeat: [ 'a', 'b' ]
     runs-on: ${{ matrix.os }}
     steps:
+    - name: Echo Runner Name
+      echo: ${{ runner.name }}
     - name: Install winget
       id: install-winget
       uses: Cyberboss/install-winget@main
