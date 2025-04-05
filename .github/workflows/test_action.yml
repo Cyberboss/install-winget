@@ -53,7 +53,7 @@ jobs:
     steps:
     - name: Echo Runner OS version
       shell: powershell
-      run: systeminfo | findstr /B /C:"OS Name" /B /C:"OS Version"
+      run: (Get-WmiObject Win32_OperatingSystem).Caption
 
     - name: Install winget
       id: install-winget
@@ -84,7 +84,7 @@ jobs:
     steps:
     - name: Echo Runner OS version
       shell: powershell
-      run: systeminfo | findstr /B /C:"OS Name" /B /C:"OS Version"
+      run: (Get-WmiObject Win32_OperatingSystem).Caption
 
     - name: Install winget
       id: install-winget
