@@ -51,8 +51,9 @@ jobs:
         repeat: [ 'a', 'b' ]
     runs-on: ${{ matrix.os }}
     steps:
-    - name: Echo Runner Name
-      run: echo ${{ runner.name }}
+    - name: Echo Runner OS version
+      shell: powershell
+      run: systeminfo | findstr /B /C:"OS Name" /B /C:"OS Version"
 
     - name: Install winget
       id: install-winget
@@ -81,8 +82,10 @@ jobs:
         repeat: [ 'a', 'b' ]
     runs-on: ${{ matrix.os }}
     steps:
-    - name: Echo Runner Name
-      run: echo ${{ runner.name }}
+    - name: Echo Runner OS version
+      shell: powershell
+      run: systeminfo | findstr /B /C:"OS Name" /B /C:"OS Version"
+
     - name: Install winget
       id: install-winget
       uses: Cyberboss/install-winget@main
