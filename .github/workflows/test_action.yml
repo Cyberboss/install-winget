@@ -52,7 +52,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - name: Echo Runner Name
-      echo: ${{ runner.name }}
+      run: echo ${{ runner.name }}
 
     - name: Install winget
       id: install-winget
@@ -82,7 +82,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - name: Echo Runner Name
-      echo: ${{ runner.name }}
+      run: echo ${{ runner.name }}
     - name: Install winget
       id: install-winget
       uses: Cyberboss/install-winget@main
