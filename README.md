@@ -2,7 +2,19 @@
 
 Action to install [winget-cli](https://github.com/microsoft/winget-cli) default v1.8.1911 on Windows runners. Other versions can be installed by changing `wget_release_id` parameter.
 
-Currently only supports `windows-2022`/`window-latest` runner image.
+Currently only supports `windows-2022` runner image.
+
+# DEPRECATION NOTICE
+
+The `windows-2025` GitHub actions runner image now comes preinstalled with `winget`. If the version packaged needs to be upgraded, it can be done with the following command.
+
+```
+winget upgrade winget --accept-package-agreements --accept-source-agreements --disable-interactivity
+```
+
+This action will continue to work in its previous capacity on `windows-2022` images. `windows-2025` will not be supported.
+
+Thank you a so much for using my crappy hack action.
 
 ## Usage
 
